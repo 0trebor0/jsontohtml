@@ -1,4 +1,11 @@
 var app = {};
+app.search = (id)=>{
+    if( document.querySelectorAll( id ).length > 1 ){
+        return document.querySelectorAll( id );
+    } else {
+        return document.querySelector( id );
+    }
+}
 app.create = (json)=>{
     let u;
     if( typeof json == 'object' ){
