@@ -10,8 +10,9 @@ window.onload = ()=>{
         body:[
             {
                 name:'h1',
-                body:'HEY',
+                body:'Its Working',
                 attribute:{'style':'color:red;text-align:center;'},
+                class:['Imtest'],
                 onclick:(e)=>{
                     console.log( e );
                 }

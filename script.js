@@ -24,7 +24,6 @@ app.create = (json)=>{
             }
             if( json.attribute && typeof json.attribute == 'object' ){
                 for( a in json.attribute ){
-                    console.log( a );
                     u[a] = json.attribute[a];
                 }
             }
