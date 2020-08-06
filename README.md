@@ -1,8 +1,8 @@
 # jsontohtml
 JSON to HTML on Browser 
-
 ## Example
 ```bash
+<script src="https://0trebor0.github.io/jsontohtml/script.js"></script>
 window.onload = ()=>{
     let div = app.create({
         name:'div',
