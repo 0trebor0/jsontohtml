@@ -1,5 +1,5 @@
 # jsontohtml
-JavaScript JSON to HTML 
+JavaScript JSON to HTML
 ## Example
 ```bash
 <script src="https://0trebor0.github.io/jsontohtml/dist/main.js"></script>

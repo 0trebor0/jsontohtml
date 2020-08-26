@@ -2,7 +2,7 @@
   "name": "jsontohtml",
   "version": "1.0.0",
   "description": "JSON to HTML on Javascript",
-  "main": "./src/script.js",
+  "main": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
@@ -23,6 +23,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "fs": "0.0.1-security",
     "path": "^0.12.7"
   }
 }
