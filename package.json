@@ -1,0 +1,28 @@
+{
+  "name": "jsontohtml",
+  "version": "1.0.0",
+  "description": "JSON to HTML on Javascript",
+  "main": "./src/script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0trebor0/jsontohtml.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0trebor0/jsontohtml/issues"
+  },
+  "homepage": "https://github.com/0trebor0/jsontohtml#readme",
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "path": "^0.12.7"
+  }
+}

@@ -1,12 +1,7 @@
-var app = {};
-app.search = (id)=>{
-    if( document.querySelectorAll( id ).length > 1 ){
-        return document.querySelectorAll( id );
-    } else {
-        return document.querySelector( id );
-    }
+export var search = (id)=>{
+    return document.querySelectorAll( id );
 }
-app.create = (json)=>{
+export var create = (json)=>{
     let u;
     if( typeof json == 'object' ){
         if( "name" in json ){
@@ -47,7 +42,7 @@ app.create = (json)=>{
                 json.body.forEach((b)=>{
                     if( typeof b == 'object' ){
                         b.parent = u;
-                        app.create(b);
+                        create(b);
                     } else if( typeof b == 'string' ){
                         u.innerHTML += b;
                     }
