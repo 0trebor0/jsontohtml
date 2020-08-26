@@ -2,9 +2,9 @@
 JavaScript JSON to HTML 
 ## Example
 ```bash
-<script src="https://0trebor0.github.io/jsontohtml/script.js"></script>
+<script src="https://0trebor0.github.io/jsontohtml/dist/main.js"></script>
 window.onload = ()=>{
-    let div = app.create({
+    let div = App.create({
         name:'div',
         parent:document.body,
         body:[
