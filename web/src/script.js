@@ -12,7 +12,7 @@ export var create = (json)=>{
                 } else if( document.querySelector( json.parent ) ){
                     document.querySelector(  json.parent ).appendChild( u );
                 } else {
-                    u = {'type':'error','msg':'cant find '+json.parent};
+                    u = {};
                 }
             } else {
                 document.body.appendChild( u );
@@ -53,7 +53,7 @@ export var create = (json)=>{
             u = {'type':'error','msg':'Missing Name'};
         }
     } else {
-        u = {'type':'error','msg':'not valid json'};
+        u = {};
     }
     return u;
 }
