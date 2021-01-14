@@ -2,7 +2,7 @@
 JavaScript JSON to HTML
 ## Example
 ```bash
-<script src="https://0trebor0.github.io/jsontohtml/dist/main.js"></script>
+<script src="https://0trebor0.github.io/jsontohtml/web/dist/main.js"></script>
 window.onload = ()=>{
     let div = App.create({
         name:'div',
