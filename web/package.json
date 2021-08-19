@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/0trebor0/jsontohtml#readme",
   "devDependencies": {
-    "webpack": "^4.44.1",
+    "webpack": "^5.51.0",
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
