@@ -1,6 +1,23 @@
 export var search = (id)=>{
     return document.querySelectorAll( id );
 }
+export var read = ( e )=>{
+    var element = {};
+    element.name = e.tagName;
+    element.body = [];
+    element.attribute = {};
+    for( let i =0; i< e.children.length;i++){
+        //console.log( e.children[i] );
+        element.body.push( read(e.children[i]) );
+    }
+    for( let i =0; i< e.attributes.length;i++){
+        let atr = e.attributes[i];
+        //console.log( e.attributes[i].value );
+        element.attribute[atr.name] = atr.value;
+    }
+    //console.log( element );
+    return element;
+}
 export var create = (json)=>{
     let u;
     if( typeof json == 'object' ){
