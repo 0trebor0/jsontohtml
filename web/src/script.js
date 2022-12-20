@@ -6,9 +6,13 @@ export var read = ( e )=>{
     element.name = e.tagName;
     element.body = [];
     element.attribute = {};
-    for( let i =0; i< e.children.length;i++){
-        //console.log( e.children[i] );
-        element.body.push( read(e.children[i]) );
+    if( e.childElementCount === 0 ){
+        element.body = e.innerText
+    } else {
+        for( let i =0; i< e.children.length;i++){
+            //console.log( e.children[i] );
+            element.body.push( read(e.children[i]) );
+        }
     }
     for( let i =0; i< e.attributes.length;i++){
         let atr = e.attributes[i];
