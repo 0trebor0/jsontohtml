@@ -25,5 +25,6 @@ window.onload = ()=>{
         }
     });
     console.log( [div] );
+    returns DOM
 }
 ```

@@ -25,9 +25,6 @@ export var create = (json)=>{
         if( "type" in json ){
             u = document.createElement( json.type );
             if( json.parent && json.parent !=='' ){
-                if( 'html' in json.parent && json.parent.html.nodeType === 1 ){
-                    json.parent = json.parent.html;
-                }
                 if( json.parent.nodeType && json.parent.nodeType === 1 ){
                     json.parent.appendChild( u );
                 } else if( document.querySelector( json.parent ) ){
@@ -82,24 +79,5 @@ export var create = (json)=>{
     } else {
         u = {};
     }
-    return {
-        html:u,
-        class:{
-            add:(element,value)=>{
-                if( !element.classList.has(value) ){
-                    element.classList.add(value);
-                }
-                return element;
-            },
-            has:(element,value)=>{
-                return element.classList.has(value);
-            },
-            remove:(element,value)=>{
-                if( !element.classList.has(value) ){
-                    element.classList.remove(value);
-                }
-                return element;
-            }
-        }
-    };
+    return u;
 }
