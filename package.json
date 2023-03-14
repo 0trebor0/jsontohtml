@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/0trebor0/jsontohtml/issues"
   },
-  "homepage": "https://github.com/0trebor0/jsontohtml#readme"
+  "homepage": "https://github.com/0trebor0/jsontohtml#readme",
+  "devDependencies": {
+    "webpack-cli": "^5.0.1"
+  }
 }

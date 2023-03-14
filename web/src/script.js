@@ -3,31 +3,31 @@ export var search = (id)=>{
 }
 export var read = ( e )=>{
     var element = {};
-    element.name = e.tagName;
-    element.body = [];
-    element.attribute = {};
+    element.type = e.tagName;
+    element.content = [];
+    element.attributes = {};
     if( e.childElementCount === 0 ){
-        element.body = e.innerText
+        element.content = e.innerText
     } else {
         for( let i =0; i< e.children.length;i++){
-            //console.log( e.children[i] );
-            element.body.push( read(e.children[i]) );
+            element.content.push( read(e.children[i]) );
         }
     }
     for( let i =0; i< e.attributes.length;i++){
         let atr = e.attributes[i];
-        //console.log( e.attributes[i].value );
-        element.attribute[atr.name] = atr.value;
+        element.attributes[atr.name] = atr.value;
     }
-    //console.log( element );
     return element;
 }
 export var create = (json)=>{
     let u;
     if( typeof json == 'object' ){
-        if( "name" in json ){
-            u = document.createElement( json.name );
+        if( "type" in json ){
+            u = document.createElement( json.type );
             if( json.parent && json.parent !=='' ){
+                if( 'html' in json.parent && json.parent.html.nodeType === 1 ){
+                    json.parent = json.parent.html;
+                }
                 if( json.parent.nodeType && json.parent.nodeType === 1 ){
                     json.parent.appendChild( u );
                 } else if( document.querySelector( json.parent ) ){
@@ -38,10 +38,16 @@ export var create = (json)=>{
             } else {
                 document.body.appendChild( u );
             }
-            if( json.attribute && typeof json.attribute == 'object' ){
-                for( let a in json.attribute ){
-                    u[a] = json.attribute[a];
-                }
+            if( json.attributes && typeof json.attributes == 'object' ){
+                json.attributes.forEach(t=>{
+                    if( 'type' in t && 'content' in t ){
+                        if( t.type == 'class' ){
+                            u.classList.add(t.content);
+                        } else {
+                            u[t.type] = t.content;
+                        }
+                    }
+                });
             }
             if( json.class && json.class.length > 0){
                 //Loop to add class
@@ -57,10 +63,10 @@ export var create = (json)=>{
                 //Run function on element create
                 json.oncreate(u);
             }
-            if( json.body && typeof json.body == 'string' ){
-                u.innerHTML += json.body;
-            } else if( json.body && typeof json.body == 'object' && json.body.length > 0 ){
-                json.body.forEach((b)=>{
+            if( json.content && typeof json.content == 'string' ){
+                u.innerHTML += json.content;
+            } else if( json.content && typeof json.content == 'object' && json.content.length > 0 ){
+                json.content.forEach((b)=>{
                     if( typeof b == 'object' ){
                         b.parent = u;
                         create(b);
@@ -71,10 +77,29 @@ export var create = (json)=>{
             }
 
         } else {
-            u = {'type':'error','msg':'Missing Name'};
+            u = {'type':'error','msg':'Missing Element Type'};
         }
     } else {
         u = {};
     }
-    return u;
+    return {
+        html:u,
+        class:{
+            add:(element,value)=>{
+                if( !element.classList.has(value) ){
+                    element.classList.add(value);
+                }
+                return element;
+            },
+            has:(element,value)=>{
+                return element.classList.has(value);
+            },
+            remove:(element,value)=>{
+                if( !element.classList.has(value) ){
+                    element.classList.remove(value);
+                }
+                return element;
+            }
+        }
+    };
 }

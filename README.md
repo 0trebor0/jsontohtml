@@ -7,13 +7,13 @@ JavaScript JSON to HTML
 
 window.onload = ()=>{
     let div = App.create({
-        name:'div',
+        type:'div',
         parent:document.body,
-        body:[
+        content:[
             {
-                name:'h1',
-                body:'Its Working',
-                attribute:{'style':'color:red;text-align:center;'},
+                type:'h1',
+                content:'Its Working',
+                attributes:[{type:'style',content:'color:red;'},{type:'class','content':'imTest2'}],
                 class:['Imtest'],
                 onclick:(e)=>{
                     console.log( e );
