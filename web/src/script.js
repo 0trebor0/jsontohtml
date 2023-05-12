@@ -15,7 +15,7 @@ export var read = ( e )=>{
     }
     for( let i =0; i< e.attributes.length;i++){
         let atr = e.attributes[i];
-        element.attributes.push(atr);
+        element.attributes.push({type:atr.name,content:atr.value});
     }
     return element;
 }
