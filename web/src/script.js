@@ -5,7 +5,7 @@ export var read = ( e )=>{
     var element = {};
     element.type = e.tagName;
     element.content = [];
-    element.attributes = {};
+    element.attributes = [];
     if( e.childElementCount === 0 ){
         element.content = e.innerText
     } else {
@@ -15,7 +15,7 @@ export var read = ( e )=>{
     }
     for( let i =0; i< e.attributes.length;i++){
         let atr = e.attributes[i];
-        element.attributes[atr.name] = atr.value;
+        element.attributes.push(atr);
     }
     return element;
 }
