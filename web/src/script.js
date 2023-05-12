@@ -19,7 +19,6 @@ export var read = ( e )=>{
     }
     return element;
 }
-
 /**
  * Create HTML From Json Object
  * @constructor
@@ -84,7 +83,7 @@ export var jsontohtml = (json)=>{
 
                         b.parent = u.html;
 
-                        u.children.push( jsontohtml(b) );
+                        u.children.push( jsontohtml(b,u.html) );
 
                     } else if( typeof b == 'string' ){
 
