@@ -24,83 +24,47 @@ export var read = ( e )=>{
  * @constructor
  * @param {string} json - {type,attributes,content,onclick,parent,oncreate}.
  */
-export var jsontohtml = (json)=>{
-
-    let u;
-
-    if( typeof json == 'object' ){
-
-        if( "type" in json ){
-
-            u = create(json.type,json.parent);
-
-            if( json.attributes && typeof json.attributes == 'object' ){
-
-                json.attributes.forEach(t=>{
-
-                    u.attribute.add(t.type,t.content);
-
-                });
-
-            }
-            if( json.class && json.class.length > 0){
-
-                //Loop to add class
-
-                json.class.forEach((c)=>{
-
-                    u.class.add(c);
-
-                });
-
-            }
-
-            if( json.onclick && typeof json.onclick == 'function'){
-
-                //Add onclick event
-                
-                u.html.onclick = json.onclick;
-            
-            }
-
-            if( json.oncreate && typeof json.oncreate == 'function' ){
-
-                //Run function on element create
-
-                json.oncreate(u);
-
-            }
-
-            if( json.content && typeof json.content == 'string' ){
-
-                u.html.innerHTML += json.content;
-
-            } else if( json.content && typeof json.content == 'object' && json.content.length > 0 ){
-
-                json.content.forEach((b)=>{
-
-                    if( typeof b == 'object' ){
-
-                        b.parent = u.html;
-
-                        u.children.push( jsontohtml(b,u.html) );
-
-                    } else if( typeof b == 'string' ){
-
-                        u.html.innerHTML += b;
-
-                    }
-
-                });
-
-            }
-
-        }
-
+export var jsontohtml( object ){
+    if( typeof object !== 'object' ){
+        throw new Error('Parameter Not valid JSON Object');
+        return;
     }
-
-    return u;
-
+    if( !("type" in object) ){
+        throw new Error('Must Specify Element Type ');
+        return;
+    }
+    if( !("parent" in object) ){
+        throw new Error('Must Specify The Parent Element ');
+        return;
+    }
+    let element = this.create( object.type, object.parent );
+    if( object.attributes && typeof object.attributes == 'object' ){
+        object.attributes.forEach(attr => element.setAttribute(attr.type, attr.content));
+    }
+    if( object.class && Array.isArray( object.class) ){
+        object.class.forEach(cls => element.addClass(cls));
+    }
+    if( object.onclick && typeof object.onclick == 'function' ){
+        element.on( 'click', object.onclick );
+    }
+    if( ("oncreate" in object && typeof object.oncreate == 'function') ){
+        object.oncreate(element);
+    }
+    if( object.content ){
+        if(typeof object.content == 'string' ){
+            element.setText(object.content);
+        } else if(Array.isArray(object.content)) {
+            object.content.forEach( item=>{
+                if( typeof item == 'object' ){
+                    item.parent = element;
+                    jsontohtml( item );
+                } else if( typeof item == 'string' ){
+                    element.setText( item );
+                }
+            } );
+        }
+    }
+    return element;
 }
 /**
  * Create HTML
@@ -109,80 +73,63 @@ export var jsontohtml = (json)=>{
  * @param {string} parent - the dom parent.
  * @param {string} callback - the callback function.
  */
-export var create = ( name,parent=null,callback=null )=>{
+export var create(name, parent = null, callback = null) {
+
     let e = {};
+
+    e.html = document.createElement(name);
+
     e.children = [];
-    // e.write = (d)=>{
-    //     e.html.innerHTML += d;
-    // }
 
-    e.attribute = {};
+    e.setAttribute = (name, value = '') => e.html.setAttribute(name, value);
 
-    e.attribute.add = (name,value)=>{
+    e.removeAttribute = (name) => e.html.removeAttribute(name);
 
-        return e.html.setAttribute(name, value);
+    e.getAttribute = (name) => e.html.getAttribute(name);
 
-    }
+    e.hasAttribute = (name) => e.html.hasAttribute(name);
 
-    e.attribute.remove = (name)=>{
+    e.addClass = (value) => e.html.classList.add(value);
 
-        return e.html.removeAttribute(name);
+    e.removeClass = (value) => e.html.classList.remove(value);
 
-    }
+    e.containsClass = (value) => e.html.classList.contains(value);
 
-    e.attribute.get = (name)=>{
+    e.setText = (text) => { e.html.textContent = text; }
 
-        return e.html.getAttribute(name);
+    e.setStyle = (property, value) => { e.html.style[property] = value; }
 
-    }
+    e.hide = () => e.setStyle('display', 'none');
 
-    e.attribute.has = (name)=>{
+    e.appendChild = (child) => e.html.appendChild(child);
 
-        return e.html.hasAttribute(name);
+    e.createChild = (name, callback = null) => this.create(name, e, callback);
 
-    }
+    e.on = (event, callback) => e.html.addEventListener(event, callback);
 
-    e.class = {};
+    e.off = (event, callback) => e.html.removeEventListener(event, callback);
 
-    e.class.add = (value)=>{
+    if (parent == null) {
 
-        return e.html.classList.add(value);
+        document.body.lastChild.appendChild(e.html);
 
-    }
+    } else if ('html' in parent) {
 
-    e.class.remove = (value)=>{
+        parent.children.push(e);
 
-        return e.html.classList.remove(value);
+        parent.html.appendChild(e.html);
 
-    }
+    } else if ('nodeType' in parent && parent.nodeType === 1) {
 
-    e.class.contains = (value)=>{
+        parent.appendChild(e.html);
 
-        return e.html.classList.contains(value);
+    } else if (document.querySelector(parent)) {
 
-    }
-
-    e.html = document.createElement( name );
-
-    if( parent == null ){
-
-        document.body.lastChild.appendChild( e.html );
-
-    }else if( 'html' in parent ){
-
-        parent.html.appendChild( e.html );
-
-    } else if( 'nodeType' in parent && parent.nodeType === 1 ){
-
-        parent.appendChild( e.html );
-
-    } else if( document.querySelector( parent ) ){
-
-        document.querySelector( parent ).appendChild( e.html );
+        document.querySelector(parent).appendChild(e.html);
 
     }
 
-    if( typeof callback == 'function' ){
+    if (typeof callback == 'function') {
 
         callback(e);
 
